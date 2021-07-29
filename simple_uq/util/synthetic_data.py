@@ -1,5 +1,5 @@
 """
-Generate synthetic data for the tutorial.
+Synthetic data to test models on.
 """
 from typing import Tuple
 
@@ -10,11 +10,16 @@ def create_1d_data(
     num_data: int,
     is_uniform_noise: bool = True,
 ) -> Tuple[np.array, np.array]:
-    """Create a 1D dataset.
+    """
+    Create a 1D dataset.
+
     Args:
         num_data: The number of dataa points in the dataset.
         is_uniform_noise: Whether to add uniform noise.
-    Returns: X and Y data as np arrays.
+
+    Returns:
+        * The x labels for the dataset.
+        * The y labels for the dataset.
     """
 
     def mean_function(x):
