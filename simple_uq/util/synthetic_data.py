@@ -10,8 +10,7 @@ def create_1d_data(
     num_data: int,
     is_uniform_noise: bool = True,
 ) -> Tuple[np.array, np.array]:
-    """
-    Create a 1D dataset.
+    """Create a 1D dataset.
 
     Args:
         num_data: The number of dataa points in the dataset.

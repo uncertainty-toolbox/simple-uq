@@ -52,7 +52,8 @@ class MLP(torch.nn.Module):
             net_in: The input to the network.
 
         Returns:
-            The output of the network."""
+            The output of the network.
+        """
         curr = net_in
         for layer_num in range(self.n_layers - 1):
             curr = getattr(self, "linear_%d" % layer_num)(curr)
