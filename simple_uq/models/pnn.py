@@ -1,7 +1,7 @@
 """ Basic implementation of a Probabilistic Neural Network (PNN). This is a
 neural network that outputs the mean and variance of a standard normal.
 """
-from typing import Callable, NoReturn, Sequence, Tuple
+from typing import Callable, Sequence, Tuple
 
 import numpy as np
 from pytorch_lightning import LightningModule
@@ -12,10 +12,10 @@ from simple_uq.util.mlp import MLP
 
 
 class PNN(LightningModule):
-    """
-    A probabilistic neural network implemented as a two headed neuural
-    network. The two heads output the mean and logvariance of a multi-variate
-    norma.
+    """Probabilistic neural network (PNN) outputting Gaussian distribution.
+
+    This model is implemented as a two headed neural network. The two heads
+    output the mean and logvariance of a multi-variate normal.
     """
 
     def __init__(
@@ -32,6 +32,7 @@ class PNN(LightningModule):
         learning_rate: float = 1e-3,
     ):
         """Constructor.
+
         Args:
             input_dim: Dimension of input data.
             output_dim: Dimesnion of data outputted.
@@ -68,11 +69,14 @@ class PNN(LightningModule):
         device: str = "cpu",
     ) -> Tuple[np.ndarray, np.ndarray]:
         """Get the mean and standard deviation prediction.
+
         Args:
             x_data: The data in numpy ndarray form.
             device: The device to use. Should be the same as the device
                 the model is currently on.
-        Returns: Mean and standard deviation as ndarrays
+
+        Returns:
+            Mean and standard deviation as ndarrays
         """
         with torch.no_grad():
             mean, logvar = self.forward(torch.Tensor(x_data, device=device))
@@ -85,9 +89,12 @@ class PNN(LightningModule):
         x_data: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """Get the mean and standard deviation prediction.
+
         Args:
             x_data: The data in tensor form.
-        Returns: Mean and log variance as tensors.
+
+        Returns:
+            Mean and log variance as tensors.
         """
         latent = self.encoder(x_data)
         return self.mean_head(latent), self.logvar_head(latent)
@@ -98,10 +105,13 @@ class PNN(LightningModule):
         batch_idx: int,
     ) -> torch.Tensor:
         """Do a training step.
+
         Args:
             batch: The x and y data to train on.
             batch_idx: Index of he batch.
-        Returns: The loss.
+
+        Returns:
+            The loss.
         """
         x_data, y_data = batch
         mean, logvar = self.forward(x_data)
@@ -113,8 +123,9 @@ class PNN(LightningModule):
         self,
         batch: Tuple[torch.Tensor, torch.Tensor],
         batch_idx: int,
-    ) -> NoReturn:
+    ) -> None:
         """Do a validation step.
+
         Args:
             batch: The x and y data to train on.
             batch_idx: Index of he batch.
@@ -128,8 +139,9 @@ class PNN(LightningModule):
         self,
         batch: Tuple[torch.Tensor, torch.Tensor],
         batch_idx: int,
-    ) -> NoReturn:
+    ) -> None:
         """Do a validation step.
+
         Args:
             batch: The x and y data to train on.
             batch_idx: Index of he batch.
@@ -141,7 +153,9 @@ class PNN(LightningModule):
 
     def configure_optimizers(self) -> torch.optim.Optimizer:
         """Configure the optimizer.
-        Returns: Optimizer
+
+        Returns:
+            Optimizer
         """
         return torch.optim.Adam(self.parameters(), lr=self._learning_rate)
 
@@ -152,11 +166,14 @@ class PNN(LightningModule):
         labels: torch.Tensor,
     ) -> torch.Tensor:
         """Compute the loss as negative log likelihood.
+
         Args:
             mean: The mean prediction for labels.
             logvar: The logvariance prediction for labels.
             labels: The observed labels of the data.
-        Returns: The negative log likelihood of each point.
+
+        Returns:
+            The negative log likelihood of each point.
         """
         sqdiffs = (mean - labels) ** 2
         return torch.exp(-logvar) * sqdiffs + logvar

@@ -1,9 +1,17 @@
 # simple-uq
-Uncertainty quantification models implemented simply and cleanly.
+Uncertainty quantification models implemented simply and cleanly using
+pytorch-lightning.
 
 ----------------------------------------------
 UNDER CONSTRUCTION
 ----------------------------------------------
+
+## Models
+
+* [Probabilistic Neural Net (PNN)](simple_uq/models/pnn.py): A neural network that outputs the mean
+  and variance of a Normal distribution.
+  
+* More coming soon!
 
 ## Installation Instructions
 
@@ -13,7 +21,7 @@ cd simple-uq
 pip install -e .
 ```
 
-## Models
+## Using the Library
 
-* Probabilistic Neural Net (PNN): A neural network that outputs the mean
-  and variance of a Normal distribution.
+For example usage of the models, see the [examples](examples) directory. More information and tips
+on using pytorch-lightning can be found in their [tutorials and documentation](https://pytorch-lightning.readthedocs.io/en/latest/).
